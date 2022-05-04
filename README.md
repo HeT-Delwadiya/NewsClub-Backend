@@ -29,7 +29,7 @@ $ npm install
 ## Run the application for development
 
 ```
-$ node app.js
+$ node app.js 
 ```
 
 ## Languages & tools
