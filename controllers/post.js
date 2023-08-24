@@ -1,20 +1,25 @@
 const inshorts = require("inshorts-news-api");
+const { Post } = require("../models/PostDTO");
 
-exports.getPosts = (req, res) => {
-       inshorts.getNews({
-              lang: req.body.lang,
+exports.getPosts = async (req, res) => {
+       const newsData = await inshorts.getNews({
+              language: req.body.lang,
               category: req.body.category
-       }, (result, news_offset) => {
-              return res.json({posts:result, news_offset:news_offset});
-       })
+       });
+       return res.json({
+              posts: new Post().fromDocuments(newsData.news),
+              news_offset: newsData.news_offset
+       });
 }
 
-exports.getMorePosts = (req, res) => {
-       inshorts.getMoreNews({
-              lang: req.body.lang,
+exports.getMorePosts = async (req, res) => {
+       const newsData = await inshorts.getNews({
+              language: req.body.lang,
               category: req.body.category,
               news_offset: req.body.news_offset
-       }, (result, news_offset) => {
-              return res.json({posts:result, news_offset:news_offset});
-       })
+       });
+       return res.json({
+              posts: new Post().fromDocuments(newsData.news),
+              news_offset: newsData.news_offset
+       });
 }
